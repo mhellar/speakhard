@@ -1,0 +1,56 @@
+KEYPAD SYNTH REV A - CNC CHEAT SHEET (Genmitsu Cubiko + FlatCAM)
+=================================================================
+Board: 96 x 66 mm, rounded corners, single-sided, ALL COPPER ON THE BOTTOM (B_Cu)
+Fits the 100 x 70 copper-clad, zero X/Y ~2 mm in. No wire jumpers.
+Parts: ESP32-S3 SuperMini (2x9 female headers), 1.5" 128x128 SH1107 I2C OLED (1x4 female),
+MAX98357A breakout (1x7 female), 4x4 tact keypad module + pot module on EDGE PADS.
+
+EDGE PADS (new on this board)
+  The keypad and the pot keep their right-angle header pins. They hang OFF the board, right side up,
+  and their pins lie flat on long rectangular pads on the copper (bottom) side:
+    - keypad: 8 pads on the BOTTOM edge, left -> right R1 R2 R3 R4 C1 C2 C3 C4 (as printed on the keypad)
+    - pot:    3 pads on the RIGHT edge; middle pad = wiper. Swapping the outer legs only reverses the knob.
+  Side view: the main board rests ON the pins, so the module sits ~1.5 mm below the main board and the
+  key tops end up about level with the board top. Tin the pads, lay the pins on, reflow each one.
+  Support the keypad with standoffs in its corner holes (or a base plate) - don't let 8 joints carry it.
+  These pads have no holes, so there is nothing to drill for them.
+
+BEFORE MILLING
+  1. Print PRINT_1to1_fit_test.pdf at 100% (no "fit to page"). Check:
+     - keypad: lay its pins on the R1..C4 pads - pitch and order (R1 on the LEFT seen from the top)
+     - pot: middle pin on the "W" pad
+     - OLED: 4 header pins on U3, body to the RIGHT of the header (display up)
+     - SuperMini (top view, USB-C pointing LEFT at the left edge):
+         top row     5V GND 3V3 13 12 11 10 9 8   (left -> right)
+         bottom row  TX RX 1 2 3 4 5 6 7          (left -> right)
+     - Amp: header row along its top edge, VIN on the LEFT, speaker terminal at the bottom
+  2. Mounting holes: the 4 corners (TL is next to the SuperMini's USB end, BL is under the amp -
+     put those screws in before plugging the modules in).
+
+G-CODE - ALREADY GENERATED (FlatCAM ran headless on the studio PC, 2026-10-02)
+  Run in this order:
+  1_isolation_0.1vbit.nc      20 deg V-bit, Z -0.05 (go -0.07 if traces don't separate)
+  2_holes_1.0drill.nc         1.0 mm drill, all 29 component holes
+  3_mounting_2.0drill.nc      2.0 mm drill, 4 mounting pilots -> open to 3.2 by hand (M3)
+  4_outline_score_0.1vbit.nc  V-bit scores the outline at Z -0.07, snap/cut out by hand
+  Drill files are ALREADY spindle-patched (fix_drill_spinup.py, .orig copies kept).
+  The empty bottom-right area isn't connected to ground, so it stays as floating copper - that's fine.
+  To regenerate after a board change: FlatCAM > File > Scripting > Run Script (Shift+S)
+  > cnc/load_and_mirror.tcl, then  python fix_drill_spinup.py 2_holes_1.0drill.nc 3_mounting_2.0drill.nc
+
+BIT CHANGE ROUTINE (V-bit -> 1.0 -> 2.0 -> V-bit)  - same as the other boards
+  1. Swap the bit (file ends at Z15)            2. DON'T touch X/Y zero
+  3. Re-zero Z by hand (paper) with the new bit  4. No height map / probing with drills
+  5. Spindle on full, check it spins, run. Files start M03 S10000 + 3 s pause.
+
+FIRMWARE PIN MAP (ESP32-S3 SuperMini) - all 15 header GPIOs used
+  OLED I2C: SDA 9, SCL 8 (addr 0x3C), powered from 3V3
+  Keypad: rows R1-R4 = 2 3 4 5 (drive LOW one at a time), columns C1-C4 = 6 7 13 12 (INPUT_PULLUP)
+  Pot: wiper 10 (ADC1), high leg = GPIO11 driven HIGH, low leg = GND
+  Amp (I2S out): LRC 1, BCLK 44 (RX), DIN 43 (TX), VIN from 5V
+  Arduino: "ESP32S3 Dev Module", USB CDC On Boot = ENABLED (required: TX/RX feed the amp)
+  Test sketch: firmware/keypad_bringup/keypad_bringup.ino (compiles clean)
+
+REGENERATING THE BOARD
+  python tools/gen_board.py  then  "C:\Program Files\KiCad\10.0\bin\python.exe" tools/fill_sync.py
+  then kicad-cli ERC + DRC (--schematic-parity --severity-all). Rev A: 0 / 0 / 0.

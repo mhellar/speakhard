@@ -1,0 +1,130 @@
+(footprint "EdgePads_Pot_CNC"
+	(version 20260206)
+	(generator "pcbnew")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(descr "Edge pads for a pot module with a RIGHT-ANGLE 1x3 header (outer leg, wiper, outer leg). The module hangs off the board edge (+Y), knob up, and its pins lie flat on these B.Cu pads. Outline estimated from a photo. Board edge 2.8 mm beyond the pad centres.")
+	(property "Reference" "REF**"
+		(at 2.54 -3.8 0)
+		(layer "F.SilkS")
+		(uuid "78664860-b013-4531-823c-38f60bebfe04")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "EdgePads_Pot_CNC"
+		(at 2.54 5.8 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "ca880069-898e-447d-aa08-c5bc167b264f")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "de63d4a1-ddab-4e57-af7d-09fff76ccbea")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "98a2da15-844a-4324-b81c-3d6b37a65d39")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(sheetname "/")
+	(sheetfile "keypad_synth_revA.kicad_sch")
+	(attr smd)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_rect
+		(start -1.2 -2.6)
+		(end 6.28 2.2)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "175eaa5f-37fc-4227-b4fa-efee8518b5b6")
+	)
+	(fp_circle
+		(center -1.6 -2.6)
+		(end -1.45 -2.6)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill yes)
+		(layer "F.SilkS")
+		(uuid "bc1e9858-e107-47f3-b41c-2436feaf8dfd")
+	)
+	(fp_rect
+		(start -1.3 -2.75)
+		(end 6.38 2.3)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "c9c429ab-e23d-4ec7-987a-fd7494deabec")
+	)
+	(fp_rect
+		(start -5.5 3.3)
+		(end 10.58 15.3)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "f50f7899-c44f-41b7-8f1f-a0081d8551ed")
+	)
+	(fp_circle
+		(center 2.54 9.3)
+		(end 11.04 9.3)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "57e6f77c-eb84-4d59-b3cd-08f00a112c3e")
+	)
+	(pad "1" smd rect
+		(at 0 0)
+		(size 1.6 4.5)
+		(layers "B.Cu" "B.Mask")
+		(uuid "6bccc0ac-7c29-4a44-909b-2ac33f5b2cd2")
+	)
+	(pad "2" smd rect
+		(at 2.54 0)
+		(size 1.6 4.5)
+		(layers "B.Cu" "B.Mask")
+		(uuid "eb945b2b-364d-4647-a3ad-a001786f30c2")
+	)
+	(pad "3" smd rect
+		(at 5.08 0)
+		(size 1.6 4.5)
+		(layers "B.Cu" "B.Mask")
+		(uuid "68a5cb25-6fd7-4738-8103-fdd888ad1a28")
+	)
+	(embedded_fonts no)
+)
